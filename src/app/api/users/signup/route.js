@@ -9,7 +9,6 @@ connectDB();
 export async function POST(request) {
     try {
         const reqBody = await request.json();
-        console.log("req", reqBody);
         const { username, email, password } = reqBody;
         if (!username || !email || !password) {
             return NextResponse.json({
@@ -48,7 +47,6 @@ export async function POST(request) {
             data: savedUser
         })
     } catch (e) {
-        console.log(e);
         return NextResponse.json({
             error: true,
             msg: 'Server failed',
