@@ -5,7 +5,7 @@ import { getDataFromToken } from "@/app/helpers/getDataFromToken";
 
 connectDB();
 
-export async function GET(request) {
+export async function POST(request) {
     try {
         const userID = await getDataFromToken(request);
         const user = await User.findById({_id: userID}).select("-password");

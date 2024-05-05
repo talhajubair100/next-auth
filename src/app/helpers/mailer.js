@@ -6,21 +6,21 @@ export const sendMail = async ({ email, emailType, userId }) => {
     try {
         const hasedToken = await bcryptjs.hash(userId.toString(), 10)
         if (emailType === 'verification') {
-            await User.findByIdAndUpdate(userId,
-                { verifyToken: hasedToken, verifyTokenExpiry: Date.now() + 3600000 },
-            );
+            await User.findByIdAndUpdate(userId, {
+                $set: { verifyToken: hasedToken, verifyTokenExpiry: Date.now() + 3600000 }
+            });
         } else if (emailType === 'reset') {
-            await User.findByIdAndUpdate(userId,
-                { forgotPasswordToken: hasedToken, forgotPasswordExpiry: Date.now() + 3600000 },
-            );
+            await User.findByIdAndUpdate(userId, {
+                $set: { forgotPasswordToken: hasedToken, forgotPasswordExpiry: Date.now() + 3600000 },
+            });
         }
         const transporter = nodemailer.createTransport({
-                host: "sandbox.smtp.mailtrap.io",
-                port: 2525,
-                auth: {
-                  user: "bc93911eb4c344",
-                  pass: "932f87c81b4187"
-                }
+            host: "sandbox.smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+                user: "bc93911eb4c344",
+                pass: "932f87c81b4187"
+            }
         });
 
         const mailOptions = {
